@@ -16,7 +16,7 @@ A React prototype for "Plot Thickener" - an AI-powered film project management t
 
 ## 🚀 Live Demo
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/yourusername/plot-thickener-prototype)
+[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/hannah796/Plot-thickner)
 
 ## 🛠️ Tech Stack
 
