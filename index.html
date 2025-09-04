@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plot Thickener - Storyboard Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                <h1><i class="fas fa-film"></i> Plot Thickener</h1>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="storyboard">
+                    <i class="fas fa-th-large"></i> Storyboard
+                </button>
+                <button class="nav-tab" data-tab="timeline">
+                    <i class="fas fa-clock"></i> Timeline
+                </button>
+                <button class="nav-tab" data-tab="characters">
+                    <i class="fas fa-users"></i> Characters
+                </button>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary" id="toggleScript">
+                    <i class="fas fa-file-alt"></i> Show/Hide Script
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Left Panel: Script/Details -->
+            <aside class="left-panel" id="scriptPanel">
+                <div class="panel-header">
+                    <h3>Script & Details</h3>
+                    <button class="btn-close" id="closeScript">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="script-content">
+                    <div class="episode-info">
+                        <h4>EP 3_test</h4>
+                        <p class="episode-title">RUBBER SIDE DOWN - Episode 3</p>
+                        <p class="writer">Written by Charles S. Yew</p>
+                    </div>
+                    <div class="current-scene">
+                        <h5>INT. SHAHBAZ GARAGE - DAY</h5>
+                    </div>
+                    <div class="script-text">
+                        <p>Aided by crutches, a walking boot stumps around Marshall's beat-up old motorcycle. Cyrus bends over to inspect it.</p>
+                        <p><strong>CYRUS</strong><br>How attached are you to this machine?</p>
+                        <p><strong>MARSHALL</strong><br>Pretty attached, I'd say.</p>
+                        <p>Marshall watches, cagey, as Cyrus examines the bike more closely.</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center: Shot Sequence Canvas -->
+            <main class="center-canvas">
+                <div class="canvas-header">
+                    <div class="scene-selector">
+                        <select id="sceneSelect">
+                            <option>INT. SHAHBAZ GARAGE - DAY</option>
+                            <option>EXT. STREET - NIGHT</option>
+                            <option>INT. APARTMENT - MORNING</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="shot-sequence-container">
+                    <div class="sequence-header">
+                        <h3>Shot Sequence</h3>
+                        <button class="btn-primary" id="addShot">
+                            <i class="fas fa-plus"></i> Add Shot
+                        </button>
+                    </div>
+                    <div class="shot-sequence" id="shotSequence">
+                        <!-- Shot cards will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Detailed Shot Editor -->
+                <div class="shot-editor" id="shotEditor">
+                    <div class="editor-header">
+                        <h4>Shot Editor</h4>
+                        <button class="btn-close" id="closeEditor">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="editor-content">
+                        <div class="image-preview">
+                            <div class="preview-placeholder" id="imagePreview">
+                                <i class="fas fa-image"></i>
+                                <p>No image generated yet</p>
+                            </div>
+                            <div class="image-overlay">
+                                <button class="btn-overlay" id="cropBtn">
+                                    <i class="fas fa-crop"></i>
+                                </button>
+                                <button class="btn-overlay" id="compositeBtn">
+                                    <i class="fas fa-layer-group"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="generation-controls">
+                            <div class="prompt-section">
+                                <label>Prompt</label>
+                                <div class="prompt-input-group">
+                                    <textarea id="promptInput" placeholder="Describe the shot..."></textarea>
+                                    <button class="btn-secondary" id="improvePrompt">
+                                        <i class="fas fa-magic"></i> Improve with AI
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="generation-params">
+                                <div class="param-group">
+                                    <label>LoRA Scale</label>
+                                    <input type="range" id="loraScale" min="0" max="2" step="0.1" value="1">
+                                    <span id="loraValue">1.0</span>
+                                </div>
+                                <div class="param-group">
+                                    <label>Style Strength</label>
+                                    <input type="range" id="styleStrength" min="0" max="1" step="0.1" value="0.7">
+                                    <span id="styleValue">0.7</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary btn-generate" id="generateBtn">
+                                <i class="fas fa-magic"></i> Generate Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Panel: Controls & Tools -->
+            <aside class="right-panel">
+                <div class="panel-header">
+                    <h3>Generation & Tools</h3>
+                </div>
+                
+                <!-- Model Selection -->
+                <div class="control-section">
+                    <h4>Model Settings</h4>
+                    <div class="model-toggle-section">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="modelToggle">
+                            <span class="slider">
+                                <span class="toggle-label left">LoRa</span>
+                                <span class="toggle-label right">Nano Banana</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="prompt-section">
+                        <label>Shot Prompt</label>
+                        <textarea id="shotPromptInput" placeholder="Describe the shot you want to generate..."></textarea>
+                        <button class="btn-primary" id="generateShotBtn">
+                            <i class="fas fa-magic"></i> Generate Shot
+                        </button>
+                    </div>
+                    <div class="model-params">
+                        <div class="param-row" id="loraScaleRow">
+                            <label>Main LoRA Scale</label>
+                            <input type="number" id="mainLoraScale" value="1" min="0" max="2" step="0.1">
+                        </div>
+                        <div class="extra-models">
+                            <div class="model-list" id="extraModels">
+                                <!-- Extra models will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Quick Actions -->
+                <div class="control-section">
+                    <h4>Quick Actions</h4>
+                    <div class="action-buttons">
+                        <button class="btn-secondary" id="upscaleBtn">
+                            <i class="fas fa-expand"></i> Upscale
+                        </button>
+                        <button class="btn-secondary" id="refineBtn">
+                            <i class="fas fa-paint-brush"></i> Refine
+                        </button>
+                        <button class="btn-secondary" id="variationsBtn">
+                            <i class="fas fa-copy"></i> Variations
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Bottom: Timeline View -->
+        <div class="timeline-container" id="timelineContainer">
+            <div class="timeline-header">
+                <h3>Episode Timeline</h3>
+                <div class="timeline-controls">
+                    <button class="btn-secondary" id="zoomIn">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="btn-secondary" id="zoomOut">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <span class="timeline-scale">1:00</span>
+                </div>
+            </div>
+            <div class="timeline-track">
+                <div class="timeline-ruler">
+                    <!-- Timeline markers will be added here -->
+                </div>
+                <div class="timeline-shots" id="timelineShots">
+                    <!-- Timeline shot blocks will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- AI Edit Modal -->
+    <div class="modal" id="aiEditModal">
+        <div class="modal-content ai-edit-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-magic"></i> AI Shot Editor</h3>
+                <button class="btn-close" id="closeAiEditModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="ai-edit-container">
+                    <!-- Image Canvas -->
+                    <div class="edit-canvas-section">
+                        <div class="canvas-header">
+                            <h4>Edit Canvas</h4>
+                            <div class="canvas-tools">
+                                <button class="btn-secondary btn-small" id="undoBtn" title="Undo">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                                <button class="btn-secondary btn-small" id="redoBtn" title="Redo">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                                <button class="btn-secondary btn-small" id="clearCanvasBtn" title="Clear">
+                                    <i class="fas fa-eraser"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="edit-canvas-container">
+                            <canvas id="editCanvas" width="600" height="400"></canvas>
+                            <div class="canvas-overlay">
+                                <div class="drawing-tools">
+                                    <button class="tool-btn active" data-tool="brush" title="Brush">
+                                        <i class="fas fa-paint-brush"></i>
+                                    </button>
+                                    <button class="tool-btn" data-tool="eraser" title="Eraser">
+                                        <i class="fas fa-eraser"></i>
+                                    </button>
+                                    <button class="tool-btn" data-tool="line" title="Line">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button class="tool-btn" data-tool="circle" title="Circle">
+                                        <i class="fas fa-circle"></i>
+                                    </button>
+                                    <button class="tool-btn" data-tool="rectangle" title="Rectangle">
+                                        <i class="fas fa-square"></i>
+                                    </button>
+                                </div>
+                                <div class="brush-settings">
+                                    <label>Size:</label>
+                                    <input type="range" id="brushSize" min="1" max="20" value="5">
+                                    <span id="brushSizeValue">5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Controls -->
+                    <div class="ai-controls-section">
+                        <div class="ai-prompt-section">
+                            <h4>AI Instructions</h4>
+                            <div class="prompt-tabs">
+                                <button class="prompt-tab active" data-tab="text">Text Prompt</button>
+                                <button class="prompt-tab" data-tab="drawing">Drawing Guide</button>
+                            </div>
+                            
+                            <div class="prompt-content">
+                                <div class="prompt-panel active" id="textPromptPanel">
+                                    <textarea id="aiPromptInput" placeholder="Describe what you want the AI to do with this shot..."></textarea>
+                                    <div class="prompt-suggestions">
+                                        <h5>Quick Suggestions:</h5>
+                                        <div class="suggestion-chips">
+                                            <button class="suggestion-chip" data-suggestion="improve lighting">Improve Lighting</button>
+                                            <button class="suggestion-chip" data-suggestion="add details">Add Details</button>
+                                            <button class="suggestion-chip" data-suggestion="change mood">Change Mood</button>
+                                            <button class="suggestion-chip" data-suggestion="fix composition">Fix Composition</button>
+                                            <button class="suggestion-chip" data-suggestion="enhance colors">Enhance Colors</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="prompt-panel" id="drawingPromptPanel">
+                                    <div class="drawing-instructions">
+                                        <p>Draw on the canvas to guide the AI:</p>
+                                        <ul>
+                                            <li><strong>Red lines:</strong> Remove or change these areas</li>
+                                            <li><strong>Green lines:</strong> Add or enhance these areas</li>
+                                            <li><strong>Blue lines:</strong> Keep these areas unchanged</li>
+                                        </ul>
+                                    </div>
+                                    <div class="color-picker">
+                                        <label>Drawing Color:</label>
+                                        <div class="color-options">
+                                            <button class="color-btn active" data-color="red" style="background: #ef4444;" title="Remove/Change"></button>
+                                            <button class="color-btn" data-color="green" style="background: #10b981;" title="Add/Enhance"></button>
+                                            <button class="color-btn" data-color="blue" style="background: #3b82f6;" title="Keep Unchanged"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-settings">
+                            <h4>AI Settings</h4>
+                            <div class="setting-group">
+                                <label>Creativity Level</label>
+                                <input type="range" id="creativityLevel" min="0" max="1" step="0.1" value="0.7">
+                                <span id="creativityValue">0.7</span>
+                            </div>
+                            <div class="setting-group">
+                                <label>Detail Level</label>
+                                <select id="detailLevel">
+                                    <option value="low">Low Detail</option>
+                                    <option value="medium" selected>Medium Detail</option>
+                                    <option value="high">High Detail</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label>Style Consistency</label>
+                                <input type="range" id="styleConsistency" min="0" max="1" step="0.1" value="0.8">
+                                <span id="styleValue">0.8</span>
+                            </div>
+                        </div>
+
+                        <div class="ai-actions">
+                            <button class="btn-primary" id="applyAiEdit">
+                                <i class="fas fa-magic"></i> Apply AI Edit
+                            </button>
+                            <button class="btn-secondary" id="previewAiEdit">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelAiEdit">Cancel</button>
+                <button class="btn-primary" id="saveAiEdit">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
